@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Menu, Trophy, CheckCircle, AlertCircle, Sparkles } from 'lucide-react';
+import { Menu, Trophy, CheckCircle, AlertCircle, Sparkles, Settings, UserCircle, LogOut, LogIn, UserPlus, X } from 'lucide-react';
 import Sidebar from './components/Sidebar';
 import DashboardView from './components/DashboardView';
 import SyllabusView from './components/SyllabusView';
@@ -11,11 +11,19 @@ function App() {
   const [currentView, setCurrentView] = useState('dashboard');
   const [selectedSubjectId, setSelectedSubjectId] = useState(null);
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
-  const { stats, isAuthenticated } = useSyllabus();
+  const [authModalOpen, setAuthModalOpen] = useState(false);
+  const [authModalTab, setAuthModalTab] = useState('login');
+  const [profileModalOpen, setProfileModalOpen] = useState(false);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
 
-  if (!isAuthenticated) {
-    return <AuthView />;
-  }
+  const { stats, isAuthenticated, user, logout } = useSyllabus();
+
+  const getUserFirstName = () => {
+    if (!user || !user.email) return 'Vishal';
+    const namePart = user.email.split('@')[0];
+    const firstSegment = namePart.split(/[._-]/)[0];
+    return firstSegment.charAt(0).toUpperCase() + firstSegment.slice(1);
+  };
 
   const renderCurrentView = () => {
     switch (currentView) {
@@ -62,6 +70,10 @@ function App() {
         setCurrentView={setCurrentView} 
         mobileOpen={mobileSidebarOpen}
         setMobileOpen={setMobileSidebarOpen}
+        onOpenAuth={() => {
+          setAuthModalTab('login');
+          setAuthModalOpen(true);
+        }}
       />
 
       {/* Main content container */}
@@ -79,16 +91,21 @@ function App() {
                 <Menu className="h-5 w-5" />
               </button>
 
-              {/* Breadcrumb / Section Title */}
-              <div className="flex items-center gap-2 text-xs font-semibold text-zinc-500">
-                <span>PrepGate</span>
-                <span>/</span>
-                <span className="text-zinc-200">{getBreadcrumbName()}</span>
+              {/* Breadcrumb & Greeting */}
+              <div className="flex flex-col gap-0.5">
+                <div className="flex items-center gap-1.5 text-[10px] font-semibold text-zinc-500 uppercase tracking-wider">
+                  <span>PrepGate</span>
+                  <span>/</span>
+                  <span className="text-zinc-400">{getBreadcrumbName()}</span>
+                </div>
+                <h2 className="text-sm font-semibold text-zinc-200">
+                  {isAuthenticated ? `Welcome, ${getUserFirstName()}` : 'Welcome to PrepGate'}
+                </h2>
               </div>
             </div>
 
-            {/* Quick stats / Progress Trophy */}
-            <div className="flex items-center gap-4">
+            {/* Quick stats / Progress Trophy & Settings Dropdown */}
+            <div className="flex items-center gap-3">
               <div className="hidden sm:flex items-center gap-1.5 text-xs text-zinc-400 bg-zinc-900 border border-zinc-850 px-3 py-1.5 rounded-lg font-medium">
                 <CheckCircle className="h-3.5 w-3.5 text-emerald-500" />
                 <span>{stats.completedTopics} of {stats.totalTopics} Completed</span>
@@ -96,6 +113,73 @@ function App() {
               <div className="flex items-center gap-2 text-xs font-bold text-violet-400 bg-violet-500/10 border border-violet-500/20 px-3 py-1.5 rounded-lg shadow-md shadow-violet-500/20">
                 <Trophy className="h-4 w-4" />
                 <span>{stats.overallProgress}% Weighted Prep</span>
+              </div>
+
+              {/* Settings Dropdown */}
+              <div className="relative">
+                <button
+                  onClick={() => setDropdownOpen(!dropdownOpen)}
+                  className="rounded-lg p-2 text-zinc-400 hover:bg-zinc-900 hover:text-white border border-zinc-850 bg-zinc-950 transition-all cursor-pointer focus:outline-none"
+                >
+                  <Settings className="h-4 w-4" />
+                </button>
+
+                {dropdownOpen && (
+                  <>
+                    <div className="fixed inset-0 z-40" onClick={() => setDropdownOpen(false)} />
+                    <div className="absolute right-0 mt-2 w-48 rounded-xl border border-zinc-800 bg-zinc-900/95 backdrop-blur-xl p-1 shadow-2xl z-50 animate-slideDown">
+                      {isAuthenticated ? (
+                        <>
+                          <button
+                            onClick={() => {
+                              setDropdownOpen(false);
+                              setProfileModalOpen(true);
+                            }}
+                            className="w-full flex items-center gap-2 px-3 py-2 text-xs font-medium text-zinc-300 hover:text-white hover:bg-zinc-800 rounded-lg transition-colors cursor-pointer text-left"
+                          >
+                            <UserCircle className="h-4 w-4 text-violet-400" />
+                            <span>View Profile</span>
+                          </button>
+                          <button
+                            onClick={() => {
+                              setDropdownOpen(false);
+                              logout();
+                            }}
+                            className="w-full flex items-center gap-2 px-3 py-2 text-xs font-medium text-red-400 hover:text-red-300 hover:bg-red-500/10 rounded-lg transition-colors cursor-pointer text-left"
+                          >
+                            <LogOut className="h-4 w-4" />
+                            <span>Log Out</span>
+                          </button>
+                        </>
+                      ) : (
+                        <>
+                          <button
+                            onClick={() => {
+                              setDropdownOpen(false);
+                              setAuthModalTab('login');
+                              setAuthModalOpen(true);
+                            }}
+                            className="w-full flex items-center gap-2 px-3 py-2 text-xs font-medium text-zinc-300 hover:text-white hover:bg-zinc-800 rounded-lg transition-colors cursor-pointer text-left"
+                          >
+                            <LogIn className="h-4 w-4 text-emerald-400" />
+                            <span>Log In</span>
+                          </button>
+                          <button
+                            onClick={() => {
+                              setDropdownOpen(false);
+                              setAuthModalTab('register');
+                              setAuthModalOpen(true);
+                            }}
+                            className="w-full flex items-center gap-2 px-3 py-2 text-xs font-medium text-zinc-300 hover:text-white hover:bg-zinc-800 rounded-lg transition-colors cursor-pointer text-left"
+                          >
+                            <UserPlus className="h-4 w-4 text-sky-400" />
+                            <span>Sign Up</span>
+                          </button>
+                        </>
+                      )}
+                    </div>
+                  </>
+                )}
               </div>
             </div>
           </div>
@@ -126,8 +210,59 @@ function App() {
           &copy; {new Date().getFullYear()} PrepGate Syllabus Tracker. Designed for GATE Computer Science & Information Technology.
         </footer>
       </div>
+
+      {/* Auth Modal overlay */}
+      {authModalOpen && (
+        <AuthView 
+          isModal={true} 
+          initialTab={authModalTab} 
+          onClose={() => setAuthModalOpen(false)} 
+        />
+      )}
+
+      {/* Profile Modal overlay */}
+      {profileModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 animate-fadeIn">
+          <div className="w-full max-w-sm rounded-2xl border border-zinc-800 bg-zinc-900/95 backdrop-blur-xl p-6 shadow-2xl relative">
+            <button
+              onClick={() => setProfileModalOpen(false)}
+              className="absolute top-4 right-4 text-zinc-400 hover:text-white rounded-lg p-1.5 hover:bg-zinc-800/60 transition-colors cursor-pointer"
+            >
+              <X className="h-5 w-5" />
+            </button>
+
+            <div className="flex flex-col items-center text-center">
+              <div className="h-16 w-16 rounded-full bg-gradient-to-tr from-violet-600 to-indigo-600 flex items-center justify-center text-white text-xl font-bold mb-4 shadow-lg shadow-violet-500/10 uppercase">
+                {user?.email?.slice(0, 2) || 'US'}
+              </div>
+              <h3 className="text-lg font-bold text-white mb-1">User Profile</h3>
+              <div className="w-full bg-zinc-950/80 rounded-xl p-3 border border-zinc-850/60 text-left mt-3 space-y-2.5">
+                <div>
+                  <span className="text-[10px] uppercase tracking-wider text-zinc-500 font-semibold block">Email Address</span>
+                  <span className="text-zinc-200 text-sm font-medium">{user?.email || 'N/A'}</span>
+                </div>
+                <div>
+                  <span className="text-[10px] uppercase tracking-wider text-zinc-500 font-semibold block">Status</span>
+                  <span className="text-emerald-400 text-xs font-semibold flex items-center gap-1.5 mt-0.5">
+                    <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
+                    Authenticated via JWT
+                  </span>
+                </div>
+              </div>
+              <button
+                onClick={() => setProfileModalOpen(false)}
+                className="mt-6 w-full bg-zinc-800 hover:bg-zinc-700 active:bg-zinc-900 text-white font-semibold rounded-xl py-2.5 text-sm transition-all cursor-pointer"
+              >
+                Close Profile
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
 
 export default App;
+
+

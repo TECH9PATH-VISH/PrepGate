@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { useSyllabus } from '../context/SyllabusContext';
-import { Mail, Lock, ArrowRight, GraduationCap, Loader2, AlertCircle } from 'lucide-react';
+import { Mail, Lock, ArrowRight, GraduationCap, Loader2, AlertCircle, X } from 'lucide-react';
 
-export default function AuthView() {
+export default function AuthView({ isModal = false, initialTab = 'login', onClose }) {
   const { login, register, authError, loading } = useSyllabus();
-  const [isLogin, setIsLogin] = useState(true);
+  const [isLogin, setIsLogin] = useState(initialTab === 'login');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -35,6 +35,7 @@ export default function AuthView() {
       } else {
         await register(email, password);
       }
+      if (onClose) onClose();
     } catch (err) {
       // Auth context handles general errors, but let's log
       console.error('Auth action failed:', err);
@@ -50,27 +51,49 @@ export default function AuthView() {
   };
 
   return (
-    <div className="min-h-screen bg-zinc-950 flex flex-col justify-center items-center px-4 relative overflow-hidden font-outfit">
-      {/* Background Decorative Gradients */}
-      <div className="absolute top-1/4 left-1/4 -translate-x-1/2 -translate-y-1/2 w-96 h-96 rounded-full bg-violet-600/10 blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-1/4 right-1/4 translate-x-1/2 translate-y-1/2 w-96 h-96 rounded-full bg-indigo-600/10 blur-[120px] pointer-events-none" />
+    <div className={isModal ? "fixed inset-0 z-50 flex items-center justify-center bg-zinc-950/75 backdrop-blur-sm p-4 font-outfit" : "min-h-screen bg-zinc-950 flex flex-col justify-center items-center px-4 relative overflow-hidden font-outfit"}>
+      {/* Background Decorative Gradients - hide when in modal to keep it clean */}
+      {!isModal && (
+        <>
+          <div className="absolute top-1/4 left-1/4 -translate-x-1/2 -translate-y-1/2 w-96 h-96 rounded-full bg-violet-600/10 blur-[120px] pointer-events-none" />
+          <div className="absolute bottom-1/4 right-1/4 translate-x-1/2 translate-y-1/2 w-96 h-96 rounded-full bg-indigo-600/10 blur-[120px] pointer-events-none" />
+        </>
+      )}
 
       {/* Main Container */}
-      <div className="w-full max-w-md z-10">
+      <div className="w-full max-w-md z-10 relative">
         
         {/* Brand Logo */}
-        <div className="flex flex-col items-center mb-8">
-          <div className="p-3 bg-gradient-to-tr from-violet-600 to-indigo-600 rounded-2xl shadow-lg shadow-violet-500/15 mb-3 flex items-center justify-center">
-            <GraduationCap className="h-8 w-8 text-white" />
+        {!isModal && (
+          <div className="flex flex-col items-center mb-8">
+            <div className="p-3 bg-gradient-to-tr from-violet-600 to-indigo-600 rounded-2xl shadow-lg shadow-violet-500/15 mb-3 flex items-center justify-center">
+              <GraduationCap className="h-8 w-8 text-white" />
+            </div>
+            <h1 className="text-3xl font-extrabold tracking-tight bg-gradient-to-r from-white via-zinc-200 to-zinc-400 bg-clip-text text-transparent">
+              PrepGate
+            </h1>
+            <p className="text-zinc-400 text-sm mt-1">GATE CSE Syllabus & Progress Tracker</p>
           </div>
-          <h1 className="text-3xl font-extrabold tracking-tight bg-gradient-to-r from-white via-zinc-200 to-zinc-400 bg-clip-text text-transparent">
-            PrepGate
-          </h1>
-          <p className="text-zinc-400 text-sm mt-1">GATE CSE Syllabus & Progress Tracker</p>
-        </div>
+        )}
 
         {/* Auth Form Card */}
-        <div className="bg-zinc-900/60 backdrop-blur-xl border border-zinc-800/80 rounded-2xl p-6 shadow-2xl">
+        <div className="bg-zinc-900/90 backdrop-blur-xl border border-zinc-800/80 rounded-2xl p-6 shadow-2xl relative">
+          {isModal && onClose && (
+            <button
+              type="button"
+              onClick={onClose}
+              className="absolute top-4 right-4 text-zinc-400 hover:text-white rounded-lg p-1.5 hover:bg-zinc-800/60 transition-colors cursor-pointer"
+            >
+              <X className="h-5 w-5" />
+            </button>
+          )}
+
+          {isModal && (
+            <div className="flex items-center gap-2 mb-6 border-b border-zinc-800/40 pb-3">
+              <GraduationCap className="h-5 w-5 text-violet-400" />
+              <h2 className="text-lg font-bold text-white">Sign In or Register</h2>
+            </div>
+          )}
           
           {/* Tab Selector */}
           <div className="grid grid-cols-2 p-1 bg-zinc-950 rounded-xl border border-zinc-800/60 mb-6">
