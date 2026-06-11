@@ -11,17 +11,22 @@ const initialSyllabusData = [
         id: "math-logic",
         name: "Mathematical Logic",
         topics: [
-          { id: "prop-fol", name: "Propositional and first-order logic", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "prop-logic", name: "Propositional logic", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "fol", name: "First-order logic", status: "Not Started", pyqSolved: false, notes: "" },
           { id: "monadic-pred", name: "Monadic predicate logic", status: "Not Started", pyqSolved: false, notes: "" },
-          { id: "satisfiability-validity", name: "Satisfiability and Validity", status: "Not Started", pyqSolved: false, notes: "" }
+          { id: "satisfiability", name: "Satisfiability", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "validity", name: "Validity", status: "Not Started", pyqSolved: false, notes: "" }
         ]
       },
       {
         id: "sets-relations",
         name: "Sets & Relations",
         topics: [
-          { id: "sets-functions", name: "Sets, Functions & Relations", status: "Not Started", pyqSolved: false, notes: "" },
-          { id: "partial-orders-lattices", name: "Partial Orders and Lattices", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "sets", name: "Sets", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "functions", name: "Functions", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "relations", name: "Relations", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "partial-orders", name: "Partial Orders", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "lattices", name: "Lattices", status: "Not Started", pyqSolved: false, notes: "" },
           { id: "equivalence-relations", name: "Equivalence Relations", status: "Not Started", pyqSolved: false, notes: "" }
         ]
       },
@@ -29,18 +34,24 @@ const initialSyllabusData = [
         id: "combinatorics",
         name: "Combinatorics",
         topics: [
-          { id: "permutations-combinations", name: "Permutations & Combinations", status: "Not Started", pyqSolved: false, notes: "" },
-          { id: "counting-summation", name: "Counting and Summation", status: "Not Started", pyqSolved: false, notes: "" },
-          { id: "generating-recurrence", name: "Generating Functions and Recurrence Relations", status: "Not Started", pyqSolved: false, notes: "" }
+          { id: "permutations", name: "Permutations", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "combinations", name: "Combinations", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "counting", name: "Counting", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "summation", name: "Summation", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "generating-functions", name: "Generating Functions", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "recurrence-relations", name: "Recurrence Relations", status: "Not Started", pyqSolved: false, notes: "" }
         ]
       },
       {
         id: "graph-theory",
         name: "Graph Theory",
         topics: [
-          { id: "connectivity-coloring", name: "Connectivity and Coloring", status: "Not Started", pyqSolved: false, notes: "" },
-          { id: "matching-isomorphism", name: "Matching and Isomorphism", status: "Not Started", pyqSolved: false, notes: "" },
-          { id: "eulerian-hamiltonian", name: "Eulerian and Hamiltonian paths", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "connectivity", name: "Connectivity", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "coloring", name: "Coloring", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "matching", name: "Matching", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "isomorphism", name: "Isomorphism", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "eulerian-paths", name: "Eulerian paths", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "hamiltonian-paths", name: "Hamiltonian paths", status: "Not Started", pyqSolved: false, notes: "" },
           { id: "planar-graphs", name: "Planar graphs", status: "Not Started", pyqSolved: false, notes: "" }
         ]
       },
@@ -48,9 +59,11 @@ const initialSyllabusData = [
         id: "linear-algebra",
         name: "Linear Algebra",
         topics: [
-          { id: "matrices-determinants", name: "Matrices and Determinants", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "matrices", name: "Matrices", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "determinants", name: "Determinants", status: "Not Started", pyqSolved: false, notes: "" },
           { id: "systems-equations", name: "Systems of Linear Equations", status: "Not Started", pyqSolved: false, notes: "" },
-          { id: "eigenvalues-vectors", name: "Eigenvalues and Eigenvectors", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "eigenvalues", name: "Eigenvalues", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "eigenvectors", name: "Eigenvectors", status: "Not Started", pyqSolved: false, notes: "" },
           { id: "lu-decomposition", name: "LU decomposition", status: "Not Started", pyqSolved: false, notes: "" }
         ]
       },
@@ -58,18 +71,31 @@ const initialSyllabusData = [
         id: "calculus",
         name: "Calculus",
         topics: [
-          { id: "limits-continuity-diff", name: "Limits, Continuity, and Differentiability", status: "Not Started", pyqSolved: false, notes: "" },
-          { id: "maxima-minima", name: "Maxima and Minima", status: "Not Started", pyqSolved: false, notes: "" },
-          { id: "mean-value-integration", name: "Mean Value Theorems and Integration", status: "Not Started", pyqSolved: false, notes: "" }
+          { id: "limits", name: "Limits", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "continuity", name: "Continuity", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "differentiability", name: "Differentiability", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "maxima", name: "Maxima", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "minima", name: "Minima", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "mean-value-theorems", name: "Mean Value Theorems", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "integration", name: "Integration", status: "Not Started", pyqSolved: false, notes: "" }
         ]
       },
       {
         id: "probability-statistics",
         name: "Probability & Statistics",
         topics: [
-          { id: "random-variables-dist", name: "Random variables, Uniform, Normal, Exponential, Poisson & Binomial distributions", status: "Not Started", pyqSolved: false, notes: "" },
-          { id: "mean-median-mode-sd", name: "Mean, Median, Mode, and Standard Deviation", status: "Not Started", pyqSolved: false, notes: "" },
-          { id: "conditional-bayes", name: "Conditional Probability and Bayes Theorem", status: "Not Started", pyqSolved: false, notes: "" }
+          { id: "random-variables", name: "Random variables", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "uniform-dist", name: "Uniform distribution", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "normal-dist", name: "Normal distribution", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "exponential-dist", name: "Exponential distribution", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "poisson-dist", name: "Poisson distribution", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "binomial-dist", name: "Binomial distribution", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "mean", name: "Mean", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "median", name: "Median", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "mode", name: "Mode", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "standard-deviation", name: "Standard Deviation", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "conditional-probability", name: "Conditional Probability", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "bayes-theorem", name: "Bayes Theorem", status: "Not Started", pyqSolved: false, notes: "" }
         ]
       }
     ]
@@ -82,8 +108,10 @@ const initialSyllabusData = [
         id: "boolean-algebra",
         name: "Boolean Algebra",
         topics: [
-          { id: "logic-functions-minimization", name: "Logic functions and Minimization", status: "Not Started", pyqSolved: false, notes: "" },
-          { id: "canonical-forms", name: "Canonical and standard forms", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "logic-functions", name: "Logic functions", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "logic-minimization", name: "Minimization", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "canonical-forms", name: "Canonical forms", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "standard-forms", name: "Standard forms", status: "Not Started", pyqSolved: false, notes: "" },
           { id: "kmaps", name: "K-Maps", status: "Not Started", pyqSolved: false, notes: "" }
         ]
       },
@@ -93,24 +121,31 @@ const initialSyllabusData = [
         topics: [
           { id: "arithmetic-circuits", name: "Arithmetic circuits", status: "Not Started", pyqSolved: false, notes: "" },
           { id: "code-converters", name: "Code converters", status: "Not Started", pyqSolved: false, notes: "" },
-          { id: "mux-decoders", name: "Multiplexers and Decoders", status: "Not Started", pyqSolved: false, notes: "" }
+          { id: "multiplexers", name: "Multiplexers", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "decoders", name: "Decoders", status: "Not Started", pyqSolved: false, notes: "" }
         ]
       },
       {
         id: "sequential-circuits",
         name: "Sequential Circuits",
         topics: [
-          { id: "latches-flipflops", name: "Latches and Flip-flops", status: "Not Started", pyqSolved: false, notes: "" },
-          { id: "counters-registers", name: "Counters and Shift-registers", status: "Not Started", pyqSolved: false, notes: "" },
-          { id: "fsms", name: "Finite State Machines (Mealy and Moore models)", status: "Not Started", pyqSolved: false, notes: "" }
+          { id: "latches", name: "Latches", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "flipflops", name: "Flip-flops", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "counters", name: "Counters", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "shift-registers", name: "Shift-registers", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "fsms-mealy", name: "Finite State Machines (Mealy model)", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "fsms-moore", name: "Finite State Machines (Moore model)", status: "Not Started", pyqSolved: false, notes: "" }
         ]
       },
       {
         id: "number-representations",
         name: "Number Representations",
         topics: [
-          { id: "fixed-float-repr", name: "Fixed and Floating-point representations", status: "Not Started", pyqSolved: false, notes: "" },
-          { id: "computer-arithmetic", name: "Computer arithmetic (addition, subtraction, multiplication)", status: "Not Started", pyqSolved: false, notes: "" }
+          { id: "fixed-point-repr", name: "Fixed-point representation", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "floating-point-repr", name: "Floating-point representation", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "computer-arithmetic-addition", name: "Computer arithmetic (addition)", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "computer-arithmetic-subtraction", name: "Computer arithmetic (subtraction)", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "computer-arithmetic-multiplication", name: "Computer arithmetic (multiplication)", status: "Not Started", pyqSolved: false, notes: "" }
         ]
       }
     ]
@@ -123,38 +158,47 @@ const initialSyllabusData = [
         id: "machine-instructions",
         name: "Machine Instructions",
         topics: [
-          { id: "instr-addressing-modes", name: "Machine instructions and Addressing modes", status: "Not Started", pyqSolved: false, notes: "" }
+          { id: "machine-instructions-basic", name: "Machine instructions", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "addressing-modes", name: "Addressing modes", status: "Not Started", pyqSolved: false, notes: "" }
         ]
       },
       {
         id: "alu-datapath",
         name: "ALU & Data Path",
         topics: [
-          { id: "alu-datapath-design", name: "ALU, Data-path and Control unit", status: "Not Started", pyqSolved: false, notes: "" },
-          { id: "control-unit", name: "Hardwired and Microprogrammed control", status: "Not Started", pyqSolved: false, notes: "" }
+          { id: "alu", name: "ALU", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "datapath", name: "Data-path", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "control-unit-basic", name: "Control unit", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "hardwired-control", name: "Hardwired control", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "microprogrammed-control", name: "Microprogrammed control", status: "Not Started", pyqSolved: false, notes: "" }
         ]
       },
       {
         id: "pipelining",
         name: "Pipelining",
         topics: [
-          { id: "pipeline-hazards", name: "Instruction pipelining and Pipeline hazards", status: "Not Started", pyqSolved: false, notes: "" },
-          { id: "pipeline-metrics", name: "Throughput and Speedup", status: "Not Started", pyqSolved: false, notes: "" }
+          { id: "instruction-pipelining", name: "Instruction pipelining", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "pipeline-hazards-basic", name: "Pipeline hazards", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "throughput", name: "Throughput", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "speedup", name: "Speedup", status: "Not Started", pyqSolved: false, notes: "" }
         ]
       },
       {
         id: "memory-hierarchy",
         name: "Memory Hierarchy",
         topics: [
-          { id: "cache-memory", name: "Cache memory (mapping, replacement policies)", status: "Not Started", pyqSolved: false, notes: "" },
-          { id: "main-secondary-storage", name: "Main memory and Secondary storage", status: "Not Started", pyqSolved: false, notes: "" }
+          { id: "cache-mapping", name: "Cache memory mapping", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "cache-replacement", name: "Cache memory replacement policies", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "main-memory", name: "Main memory", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "secondary-storage", name: "Secondary storage", status: "Not Started", pyqSolved: false, notes: "" }
         ]
       },
       {
         id: "io-interface",
         name: "I/O Interface",
         topics: [
-          { id: "interrupts-dma", name: "I/O interface (Interrupt and DMA mode)", status: "Not Started", pyqSolved: false, notes: "" }
+          { id: "io-interrupt-mode", name: "I/O interface (Interrupt mode)", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "io-dma-mode", name: "I/O interface (DMA mode)", status: "Not Started", pyqSolved: false, notes: "" }
         ]
       }
     ]
@@ -167,15 +211,21 @@ const initialSyllabusData = [
         id: "programming-c",
         name: "Programming in C",
         topics: [
-          { id: "functions-recursion", name: "Functions, Recursion, Parameter passing, and Scope", status: "Not Started", pyqSolved: false, notes: "" },
-          { id: "pointers-arrays-structs", name: "Pointers, Arrays, and Structures", status: "Not Started", pyqSolved: false, notes: "" }
+          { id: "functions-c", name: "Functions", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "recursion", name: "Recursion", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "parameter-passing", name: "Parameter passing", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "scope", name: "Scope", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "pointers", name: "Pointers", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "arrays", name: "Arrays", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "structures", name: "Structures", status: "Not Started", pyqSolved: false, notes: "" }
         ]
       },
       {
         id: "linear-ds",
         name: "Linear Data Structures",
         topics: [
-          { id: "stacks-queues", name: "Stacks and Queues", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "stacks", name: "Stacks", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "queues", name: "Queues", status: "Not Started", pyqSolved: false, notes: "" },
           { id: "linked-lists", name: "Linked Lists", status: "Not Started", pyqSolved: false, notes: "" }
         ]
       },
@@ -183,9 +233,11 @@ const initialSyllabusData = [
         id: "nonlinear-ds",
         name: "Non-Linear Data Structures",
         topics: [
-          { id: "trees-bst", name: "Trees and Binary Search Trees", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "trees", name: "Trees", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "bst", name: "Binary Search Trees", status: "Not Started", pyqSolved: false, notes: "" },
           { id: "binary-heaps", name: "Binary Heaps", status: "Not Started", pyqSolved: false, notes: "" },
-          { id: "graphs-ds", name: "Graphs representation and basic properties", status: "Not Started", pyqSolved: false, notes: "" }
+          { id: "graphs-representation", name: "Graphs representation", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "graphs-properties", name: "Graphs basic properties", status: "Not Started", pyqSolved: false, notes: "" }
         ]
       }
     ]
@@ -198,7 +250,8 @@ const initialSyllabusData = [
         id: "algorithms-analysis",
         name: "Analysis",
         topics: [
-          { id: "asymptotic-complexity", name: "Asymptotic worst-case time and space complexity", status: "Not Started", pyqSolved: false, notes: "" }
+          { id: "asymptotic-time-complexity", name: "Asymptotic worst-case time complexity", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "asymptotic-space-complexity", name: "Asymptotic worst-case space complexity", status: "Not Started", pyqSolved: false, notes: "" }
         ]
       },
       {
@@ -214,16 +267,23 @@ const initialSyllabusData = [
         id: "graph-algorithms",
         name: "Graph Algorithms",
         topics: [
-          { id: "bfs-dfs-alg", name: "Graph traversals (BFS, DFS)", status: "Not Started", pyqSolved: false, notes: "" },
-          { id: "mst-algorithms", name: "Minimum Spanning Trees (Prim's, Kruskal's)", status: "Not Started", pyqSolved: false, notes: "" },
-          { id: "shortest-paths-alg", name: "Shortest paths (Dijkstra's, Bellman-Ford, Floyd-Warshall)", status: "Not Started", pyqSolved: false, notes: "" }
+          { id: "bfs", name: "Graph traversal (BFS)", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "dfs", name: "Graph traversal (DFS)", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "prims-alg", name: "Prim's algorithm", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "kruskals-alg", name: "Kruskal's algorithm", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "dijkstras-alg", name: "Dijkstra's algorithm", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "bellman-ford-alg", name: "Bellman-Ford algorithm", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "floyd-warshall-alg", name: "Floyd-Warshall algorithm", status: "Not Started", pyqSolved: false, notes: "" }
         ]
       },
       {
         id: "sorting-searching",
         name: "Sorting and Searching",
         topics: [
-          { id: "sorting-algorithms", name: "Sorting algorithms (Merge sort, Quick sort, Heap sort, Radix sort)", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "merge-sort", name: "Merge sort", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "quick-sort", name: "Quick sort", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "heap-sort", name: "Heap sort", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "radix-sort", name: "Radix sort", status: "Not Started", pyqSolved: false, notes: "" },
           { id: "hashing", name: "Hashing", status: "Not Started", pyqSolved: false, notes: "" }
         ]
       }
@@ -237,7 +297,9 @@ const initialSyllabusData = [
         id: "regular-languages",
         name: "Regular Languages",
         topics: [
-          { id: "regex-dfa-nfa", name: "Regular expressions and Finite automata (DFA, NFA)", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "regular-expressions", name: "Regular expressions", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "dfa", name: "Deterministic Finite Automata (DFA)", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "nfa", name: "Non-deterministic Finite Automata (NFA)", status: "Not Started", pyqSolved: false, notes: "" },
           { id: "dfa-minimization", name: "Minimization of DFA", status: "Not Started", pyqSolved: false, notes: "" },
           { id: "pumping-lemma-reg", name: "Pumping Lemma for regular languages", status: "Not Started", pyqSolved: false, notes: "" }
         ]
@@ -256,7 +318,8 @@ const initialSyllabusData = [
         name: "Turing Machines",
         topics: [
           { id: "turing-machines-basic", name: "Turing machines", status: "Not Started", pyqSolved: false, notes: "" },
-          { id: "decidability-halting", name: "Decidability and Halting problem", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "decidability", name: "Decidability", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "halting-problem", name: "Halting problem", status: "Not Started", pyqSolved: false, notes: "" },
           { id: "undecidability", name: "Undecidability", status: "Not Started", pyqSolved: false, notes: "" }
         ]
       }
@@ -271,7 +334,11 @@ const initialSyllabusData = [
         name: "Lexical & Syntax Analysis",
         topics: [
           { id: "lexical-analysis", name: "Lexical analysis", status: "Not Started", pyqSolved: false, notes: "" },
-          { id: "parsing-types", name: "Parsing (Top-down, Bottom-up, LL, LR, LALR parsers)", status: "Not Started", pyqSolved: false, notes: "" }
+          { id: "top-down-parsing", name: "Top-down parsing", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "bottom-up-parsing", name: "Bottom-up parsing", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "ll-parsers", name: "LL parsers", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "lr-parsers", name: "LR parsers", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "lalr-parsers", name: "LALR parsers", status: "Not Started", pyqSolved: false, notes: "" }
         ]
       },
       {
@@ -287,7 +354,8 @@ const initialSyllabusData = [
         name: "Code Generation & Optimization",
         topics: [
           { id: "icg", name: "Intermediate code generation", status: "Not Started", pyqSolved: false, notes: "" },
-          { id: "code-optimization", name: "Local and Global code optimization", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "local-code-optimization", name: "Local code optimization", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "global-code-optimization", name: "Global code optimization", status: "Not Started", pyqSolved: false, notes: "" },
           { id: "register-allocation", name: "Register allocation", status: "Not Started", pyqSolved: false, notes: "" }
         ]
       }
@@ -302,8 +370,10 @@ const initialSyllabusData = [
         name: "Processes & Threads",
         topics: [
           { id: "system-calls", name: "System calls", status: "Not Started", pyqSolved: false, notes: "" },
-          { id: "processes-threads-concept", name: "Processes and Threads", status: "Not Started", pyqSolved: false, notes: "" },
-          { id: "cpu-scheduling-alg", name: "CPU and Thread scheduling", status: "Not Started", pyqSolved: false, notes: "" }
+          { id: "processes", name: "Processes", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "threads", name: "Threads", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "cpu-scheduling", name: "CPU scheduling", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "thread-scheduling", name: "Thread scheduling", status: "Not Started", pyqSolved: false, notes: "" }
         ]
       },
       {
@@ -311,8 +381,10 @@ const initialSyllabusData = [
         name: "Concurrency",
         topics: [
           { id: "ipc", name: "Inter-process communication", status: "Not Started", pyqSolved: false, notes: "" },
-          { id: "concurrency-mutex", name: "Concurrency and Mutual exclusion", status: "Not Started", pyqSolved: false, notes: "" },
-          { id: "semaphores-monitors", name: "Semaphores and Monitors", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "concurrency-concept", name: "Concurrency", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "mutual-exclusion", name: "Mutual exclusion", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "semaphores", name: "Semaphores", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "monitors", name: "Monitors", status: "Not Started", pyqSolved: false, notes: "" },
           { id: "sync-problems", name: "Classical CPU synchronization problems", status: "Not Started", pyqSolved: false, notes: "" },
           { id: "deadlocks-concept", name: "Deadlocks", status: "Not Started", pyqSolved: false, notes: "" }
         ]
@@ -322,15 +394,18 @@ const initialSyllabusData = [
         name: "Memory Management",
         topics: [
           { id: "memory-management-basic", name: "Main memory management", status: "Not Started", pyqSolved: false, notes: "" },
-          { id: "paging-segmentation", name: "Paging and Segmentation", status: "Not Started", pyqSolved: false, notes: "" },
-          { id: "virtual-memory-replacement", name: "Virtual memory and Page replacement algorithms", status: "Not Started", pyqSolved: false, notes: "" }
+          { id: "paging", name: "Paging", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "segmentation", name: "Segmentation", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "virtual-memory", name: "Virtual memory", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "page-replacement-alg", name: "Page replacement algorithms", status: "Not Started", pyqSolved: false, notes: "" }
         ]
       },
       {
         id: "file-storage",
         name: "File & Storage Systems",
         topics: [
-          { id: "files-directories", name: "File systems and Directory structure", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "file-systems", name: "File systems", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "directory-structure", name: "Directory structure", status: "Not Started", pyqSolved: false, notes: "" },
           { id: "disk-scheduling", name: "Disk scheduling algorithms", status: "Not Started", pyqSolved: false, notes: "" }
         ]
       }
@@ -346,7 +421,8 @@ const initialSyllabusData = [
         topics: [
           { id: "er-model", name: "ER-model", status: "Not Started", pyqSolved: false, notes: "" },
           { id: "relational-model-concept", name: "Relational model", status: "Not Started", pyqSolved: false, notes: "" },
-          { id: "relational-algebra-calculus", name: "Relational algebra and Tuple calculus", status: "Not Started", pyqSolved: false, notes: "" }
+          { id: "relational-algebra", name: "Relational algebra", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "tuple-calculus", name: "Tuple calculus", status: "Not Started", pyqSolved: false, notes: "" }
         ]
       },
       {
@@ -354,7 +430,9 @@ const initialSyllabusData = [
         name: "Structured Query Language",
         topics: [
           { id: "sql-queries", name: "SQL queries", status: "Not Started", pyqSolved: false, notes: "" },
-          { id: "constraints-triggers", name: "Integrity constraints, Assertions, and Triggers", status: "Not Started", pyqSolved: false, notes: "" }
+          { id: "integrity-constraints", name: "Integrity constraints", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "assertions", name: "Assertions", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "triggers", name: "Triggers", status: "Not Started", pyqSolved: false, notes: "" }
         ]
       },
       {
@@ -362,15 +440,21 @@ const initialSyllabusData = [
         name: "Database Design",
         topics: [
           { id: "schema-refinement", name: "Schema refinement", status: "Not Started", pyqSolved: false, notes: "" },
-          { id: "normalization-fds", name: "Functional dependencies and Normalization (1NF, 2NF, 3NF, BCNF)", status: "Not Started", pyqSolved: false, notes: "" }
+          { id: "functional-dependencies", name: "Functional dependencies", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "normalization-1nf", name: "Normalization (1NF)", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "normalization-2nf", name: "Normalization (2NF)", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "normalization-3nf", name: "Normalization (3NF)", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "normalization-bcnf", name: "Normalization (BCNF)", status: "Not Started", pyqSolved: false, notes: "" }
         ]
       },
       {
         id: "transactions-concurrency",
         name: "Transactions & Concurrency",
         topics: [
-          { id: "acid-properties", name: "Transaction concepts and ACID properties", status: "Not Started", pyqSolved: false, notes: "" },
-          { id: "concurrency-control", name: "Concurrency control (Locking and Time-stamping)", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "transaction-concepts", name: "Transaction concepts", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "acid-properties", name: "ACID properties", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "concurrency-control-locking", name: "Concurrency control (Locking)", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "concurrency-control-timestamping", name: "Concurrency control (Time-stamping)", status: "Not Started", pyqSolved: false, notes: "" },
           { id: "serializability", name: "Serializability", status: "Not Started", pyqSolved: false, notes: "" }
         ]
       },
@@ -379,7 +463,8 @@ const initialSyllabusData = [
         name: "Storage & Indexing",
         topics: [
           { id: "file-organization", name: "File organization", status: "Not Started", pyqSolved: false, notes: "" },
-          { id: "indexing-b-trees", name: "Indexing (B and B+ trees)", status: "Not Started", pyqSolved: false, notes: "" }
+          { id: "indexing-b-trees", name: "Indexing (B trees)", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "indexing-bplus-trees", name: "Indexing (B+ trees)", status: "Not Started", pyqSolved: false, notes: "" }
         ]
       }
     ]
@@ -393,33 +478,46 @@ const initialSyllabusData = [
         name: "Network Architecture",
         topics: [
           { id: "layering-concept", name: "Concept of layering", status: "Not Started", pyqSolved: false, notes: "" },
-          { id: "osi-tcpip-stacks", name: "OSI and TCP/IP protocol stacks", status: "Not Started", pyqSolved: false, notes: "" }
+          { id: "osi-stack", name: "OSI protocol stack", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "tcpip-stack", name: "TCP/IP protocol stack", status: "Not Started", pyqSolved: false, notes: "" }
         ]
       },
       {
         id: "datalink-layer",
         name: "Data Link Layer",
         topics: [
-          { id: "framing-errors", name: "Framing, Error detection and correction", status: "Not Started", pyqSolved: false, notes: "" },
-          { id: "flow-sliding-window", name: "Flow control and Sliding window protocols", status: "Not Started", pyqSolved: false, notes: "" },
-          { id: "mac-protocols", name: "Medium Access Control (CSMA/CD, Token Ring)", status: "Not Started", pyqSolved: false, notes: "" }
+          { id: "framing", name: "Framing", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "error-detection", name: "Error detection", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "error-correction", name: "Error correction", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "flow-control-dll", name: "Flow control (Data Link Layer)", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "sliding-window-protocols", name: "Sliding window protocols", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "mac-csmacd", name: "Medium Access Control (CSMA/CD)", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "mac-tokenring", name: "Medium Access Control (Token Ring)", status: "Not Started", pyqSolved: false, notes: "" }
         ]
       },
       {
         id: "network-layer",
         name: "Network Layer",
         topics: [
-          { id: "routing-algorithms", name: "Routing algorithms (Distance Vector, Link State)", status: "Not Started", pyqSolved: false, notes: "" },
-          { id: "ipv4-ipv6", name: "IPv4 and IPv6", status: "Not Started", pyqSolved: false, notes: "" },
-          { id: "subnetting-cidr-protocols", name: "Subnetting, CIDR, ICMP, ARP, and NAT", status: "Not Started", pyqSolved: false, notes: "" }
+          { id: "routing-distance-vector", name: "Routing algorithms (Distance Vector)", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "routing-link-state", name: "Routing algorithms (Link State)", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "ipv4", name: "IPv4", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "ipv6", name: "IPv6", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "subnetting", name: "Subnetting", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "cidr", name: "CIDR", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "icmp", name: "ICMP", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "arp", name: "ARP", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "nat", name: "NAT", status: "Not Started", pyqSolved: false, notes: "" }
         ]
       },
       {
         id: "transport-layer",
         name: "Transport Layer",
         topics: [
-          { id: "tcp-udp", name: "TCP and UDP", status: "Not Started", pyqSolved: false, notes: "" },
-          { id: "flow-congestion-control", name: "Flow control and Congestion control", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "tcp", name: "TCP", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "udp", name: "UDP", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "flow-control-tl", name: "Flow control (Transport Layer)", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "congestion-control", name: "Congestion control", status: "Not Started", pyqSolved: false, notes: "" },
           { id: "socket-programming", name: "Socket programming", status: "Not Started", pyqSolved: false, notes: "" }
         ]
       },
@@ -427,7 +525,12 @@ const initialSyllabusData = [
         id: "application-layer",
         name: "Application Layer",
         topics: [
-          { id: "app-layer-protocols", name: "DNS, SMTP, POP, HTTP, FTP, HTTPS", status: "Not Started", pyqSolved: false, notes: "" }
+          { id: "dns", name: "DNS", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "smtp", name: "SMTP", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "pop", name: "POP", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "http", name: "HTTP", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "ftp", name: "FTP", status: "Not Started", pyqSolved: false, notes: "" },
+          { id: "https", name: "HTTPS", status: "Not Started", pyqSolved: false, notes: "" }
         ]
       }
     ]
