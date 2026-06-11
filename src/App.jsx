@@ -4,13 +4,18 @@ import Sidebar from './components/Sidebar';
 import DashboardView from './components/DashboardView';
 import SyllabusView from './components/SyllabusView';
 import RevisionView from './components/RevisionView';
+import AuthView from './components/AuthView';
 import { useSyllabus } from './context/SyllabusContext';
 
 function App() {
   const [currentView, setCurrentView] = useState('dashboard');
   const [selectedSubjectId, setSelectedSubjectId] = useState(null);
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
-  const { stats } = useSyllabus();
+  const { stats, isAuthenticated } = useSyllabus();
+
+  if (!isAuthenticated) {
+    return <AuthView />;
+  }
 
   const renderCurrentView = () => {
     switch (currentView) {

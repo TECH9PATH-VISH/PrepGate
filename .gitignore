@@ -22,3 +22,20 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# SQLite database files
+server/dev.db
+server/dev.db-journal
+server/dev.db-wal
+server/dev.db-shm
+server/prisma/dev.db
+server/prisma/dev.db-journal
+server/prisma/dev.db-wal
+server/prisma/dev.db-shm
+
+# Environments
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local

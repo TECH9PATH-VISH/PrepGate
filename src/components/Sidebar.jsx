@@ -3,7 +3,7 @@ import { LayoutDashboard, BookOpen, AlertCircle, GraduationCap, X } from 'lucide
 import { useSyllabus } from '../context/SyllabusContext';
 
 const Sidebar = ({ currentView, setCurrentView, mobileOpen, setMobileOpen }) => {
-  const { revisionTopics } = useSyllabus();
+  const { revisionTopics, user, logout } = useSyllabus();
   const revisionCount = revisionTopics.length;
 
   const navItems = [
@@ -90,21 +90,27 @@ const Sidebar = ({ currentView, setCurrentView, mobileOpen, setMobileOpen }) => 
           })}
         </nav>
 
-        {/* User Profile Mockup */}
-        <div className="mt-auto border-t border-zinc-900 pt-5">
+        {/* User Profile & Sign Out */}
+        <div className="mt-auto border-t border-zinc-900 pt-5 space-y-4">
           <div className="flex items-center gap-3">
             <div className="relative h-10 w-10 overflow-hidden rounded-xl border border-zinc-800 bg-zinc-900">
               {/* Fallback avatar initials */}
-              <div className="flex h-full w-full items-center justify-center font-semibold text-sm text-zinc-300 bg-gradient-to-br from-zinc-800 to-zinc-900">
-                CS
+              <div className="flex h-full w-full items-center justify-center font-semibold text-sm text-zinc-300 bg-gradient-to-br from-zinc-800 to-zinc-900 uppercase">
+                {user ? user.email.slice(0, 2) : 'US'}
               </div>
               <span className="absolute bottom-0 right-0 h-2.5 w-2.5 rounded-full border-2 border-zinc-950 bg-emerald-500" />
             </div>
             <div className="flex-1 overflow-hidden">
               <h4 className="truncate text-sm font-medium text-zinc-200">GATE Aspirant</h4>
-              <p className="truncate text-xs text-zinc-500">cs2027@prepgate.io</p>
+              <p className="truncate text-xs text-zinc-500">{user ? user.email : 'guest@prepgate.io'}</p>
             </div>
           </div>
+          <button
+            onClick={logout}
+            className="w-full flex items-center justify-center gap-2 rounded-xl border border-zinc-850 bg-zinc-900/50 hover:bg-red-500/10 hover:border-red-500/20 hover:text-red-400 py-2 text-xs font-semibold transition-all duration-200 cursor-pointer"
+          >
+            Sign Out
+          </button>
         </div>
       </aside>
     </>

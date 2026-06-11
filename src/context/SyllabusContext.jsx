@@ -445,29 +445,163 @@ const getTopicWeight = (status) => {
   }
 };
 
-export const SyllabusProvider = ({ children }) => {
-  const [syllabus, setSyllabus] = useState(() => {
-    try {
-      const stored = localStorage.getItem('prepgate_syllabus_data');
-      if (stored) {
-        const parsed = JSON.parse(stored);
-        if (parsed.length === initialSyllabusData.length) {
-          return parsed;
-        }
-      }
-      return initialSyllabusData;
-    } catch (e) {
-      console.error("Failed to load syllabus from localStorage:", e);
-      return initialSyllabusData;
-    }
+const API_BASE = 'http://localhost:3001/api';
+
+const mergeProgress = (staticSyllabus, progressList) => {
+  const progressMap = {};
+  progressList.forEach(item => {
+    progressMap[item.topicId] = item;
   });
 
+  return staticSyllabus.map(subject => ({
+    ...subject,
+    chapters: subject.chapters.map(chapter => ({
+      ...chapter,
+      topics: chapter.topics.map(topic => {
+        const prog = progressMap[topic.id];
+        return prog ? {
+          ...topic,
+          status: prog.status,
+          pyqSolved: prog.pyqSolved,
+          notes: prog.notes
+        } : topic;
+      })
+    }))
+  }));
+};
+
+export const SyllabusProvider = ({ children }) => {
+  const [token, setToken] = useState(() => localStorage.getItem('prepgate_token') || null);
+  const [user, setUser] = useState(() => {
+    const stored = localStorage.getItem('prepgate_user');
+    return stored ? JSON.parse(stored) : null;
+  });
+  const [isAuthenticated, setIsAuthenticated] = useState(!!token);
+  const [authError, setAuthError] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [syllabus, setSyllabus] = useState(initialSyllabusData);
+
+  // Helper to log out
+  const logout = () => {
+    localStorage.removeItem('prepgate_token');
+    localStorage.removeItem('prepgate_user');
+    setToken(null);
+    setUser(null);
+    setIsAuthenticated(false);
+    setSyllabus(initialSyllabusData);
+  };
+
+  // Fetch progress from backend upon authentication
   useEffect(() => {
-    localStorage.setItem('prepgate_syllabus_data', JSON.stringify(syllabus));
-  }, [syllabus]);
+    const fetchProgress = async () => {
+      if (!token) {
+        setSyllabus(initialSyllabusData);
+        return;
+      }
+
+      setLoading(true);
+      try {
+        const response = await fetch(`${API_BASE}/progress/get`, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+
+        if (response.ok) {
+          const progressList = await response.json();
+          setSyllabus(mergeProgress(initialSyllabusData, progressList));
+        } else if (response.status === 401) {
+          logout();
+        }
+      } catch (err) {
+        console.error("Failed to fetch progress from backend:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProgress();
+  }, [token]);
+
+  // Auth: Login
+  const login = async (email, password) => {
+    setLoading(true);
+    setAuthError('');
+    try {
+      const response = await fetch(`${API_BASE}/auth/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password })
+      });
+
+      const data = await response.json();
+      if (!response.ok) {
+        throw new Error(data.error || 'Login failed');
+      }
+
+      localStorage.setItem('prepgate_token', data.token);
+      localStorage.setItem('prepgate_user', JSON.stringify(data.user));
+      setToken(data.token);
+      setUser(data.user);
+      setIsAuthenticated(true);
+    } catch (err) {
+      setAuthError(err.message);
+      throw err;
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Auth: Register
+  const register = async (email, password) => {
+    setLoading(true);
+    setAuthError('');
+    try {
+      const response = await fetch(`${API_BASE}/auth/register`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password })
+      });
+
+      const data = await response.json();
+      if (!response.ok) {
+        throw new Error(data.error || 'Registration failed');
+      }
+
+      localStorage.setItem('prepgate_token', data.token);
+      localStorage.setItem('prepgate_user', JSON.stringify(data.user));
+      setToken(data.token);
+      setUser(data.user);
+      setIsAuthenticated(true);
+    } catch (err) {
+      setAuthError(err.message);
+      throw err;
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Sync update with DB
+  const syncProgress = async (topicId, status, pyqSolved, notes) => {
+    if (!token) return;
+    try {
+      await fetch(`${API_BASE}/progress/update`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({ topicId, status, pyqSolved, notes })
+      });
+    } catch (err) {
+      console.error("Failed to sync progress with backend:", err);
+    }
+  };
 
   // Update status of a topic
   const updateTopicStatus = (subjectId, chapterId, topicId, newStatus) => {
+    let topicToSync = null;
+
     setSyllabus(prev => prev.map(subject => {
       if (subject.id !== subjectId) return subject;
       return {
@@ -478,16 +612,24 @@ export const SyllabusProvider = ({ children }) => {
             ...chapter,
             topics: chapter.topics.map(topic => {
               if (topic.id !== topicId) return topic;
-              return { ...topic, status: newStatus };
+              const updated = { ...topic, status: newStatus };
+              topicToSync = updated;
+              return updated;
             })
           };
         })
       };
     }));
+
+    if (topicToSync) {
+      syncProgress(topicToSync.id, topicToSync.status, topicToSync.pyqSolved, topicToSync.notes);
+    }
   };
 
   // Toggle PYQs Solved status
   const toggleTopicPyq = (subjectId, chapterId, topicId) => {
+    let topicToSync = null;
+
     setSyllabus(prev => prev.map(subject => {
       if (subject.id !== subjectId) return subject;
       return {
@@ -498,16 +640,24 @@ export const SyllabusProvider = ({ children }) => {
             ...chapter,
             topics: chapter.topics.map(topic => {
               if (topic.id !== topicId) return topic;
-              return { ...topic, pyqSolved: !topic.pyqSolved };
+              const updated = { ...topic, pyqSolved: !topic.pyqSolved };
+              topicToSync = updated;
+              return updated;
             })
           };
         })
       };
     }));
+
+    if (topicToSync) {
+      syncProgress(topicToSync.id, topicToSync.status, topicToSync.pyqSolved, topicToSync.notes);
+    }
   };
 
   // Update quick notes
   const updateTopicNotes = (subjectId, chapterId, topicId, newNotes) => {
+    let topicToSync = null;
+
     setSyllabus(prev => prev.map(subject => {
       if (subject.id !== subjectId) return subject;
       return {
@@ -518,12 +668,18 @@ export const SyllabusProvider = ({ children }) => {
             ...chapter,
             topics: chapter.topics.map(topic => {
               if (topic.id !== topicId) return topic;
-              return { ...topic, notes: newNotes };
+              const updated = { ...topic, notes: newNotes };
+              topicToSync = updated;
+              return updated;
             })
           };
         })
       };
     }));
+
+    if (topicToSync) {
+      syncProgress(topicToSync.id, topicToSync.status, topicToSync.pyqSolved, topicToSync.notes);
+    }
   };
 
   // Calculate detailed progress stats
@@ -622,7 +778,15 @@ export const SyllabusProvider = ({ children }) => {
       toggleTopicPyq,
       updateTopicNotes,
       stats,
-      revisionTopics
+      revisionTopics,
+      user,
+      token,
+      isAuthenticated,
+      authError,
+      loading,
+      login,
+      register,
+      logout
     }}>
       {children}
     </SyllabusContext.Provider>
