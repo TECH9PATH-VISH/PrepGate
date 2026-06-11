@@ -1,0 +1,30 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: 'Outfit', system-ui, -apple-system, sans-serif;
+}
+
+/* Custom global overrides for scrollbar and seamless look */
+body {
+  background-color: #09090b; /* zinc-950 equivalent */
+  color: #f4f4f5; /* zinc-100 equivalent */
+  font-family: var(--font-sans);
+  overflow-x: hidden;
+}
+
+/* Custom Webkit scrollbar for premium dark-mode styling */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #09090b;
+}
+::-webkit-scrollbar-thumb {
+  background: #27272a;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #3f3f46;
+}
