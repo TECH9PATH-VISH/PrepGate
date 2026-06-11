@@ -12,7 +12,8 @@ const PORT = process.env.PORT || 3001;
 // CORS configuration - Allow Vite local dev and production domains
 const allowedOrigins = [
   'http://localhost:5173',
-  'http://127.0.0.1:5173'
+  'http://127.0.0.1:5173',
+  'https://tech9path-vish.github.io'
 ];
 
 app.use(cors({
