@@ -1,6 +1,7 @@
 import React from 'react';
 import { Trophy, BookOpen, CheckCircle, Calendar, ArrowRight, AlertTriangle, HelpCircle, CheckSquare, Sparkles } from 'lucide-react';
 import { useSyllabus } from '../context/SyllabusContext';
+import SubjectWeightageChart from './SubjectWeightageChart';
 
 const DashboardView = ({ setCurrentView, setSelectedSubjectId }) => {
   const { stats, revisionTopics } = useSyllabus();
@@ -23,14 +24,17 @@ const DashboardView = ({ setCurrentView, setSelectedSubjectId }) => {
   return (
     <div className="space-y-6">
       {/* Header Panel */}
-      <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
+      <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
         <div>
           <h1 className="text-3xl font-extrabold text-white tracking-tight">Dashboard</h1>
           <p className="text-sm text-zinc-400">Welcome back. Track your GATE CSE preparation roadmap.</p>
         </div>
-        <div className="flex items-center gap-2 rounded-xl bg-zinc-900 border border-zinc-800 px-4 py-2.5 text-xs text-zinc-300 font-medium w-fit">
-          <Calendar className="h-4 w-4 text-violet-400" />
-          <span>{new Date().toLocaleDateString(undefined, { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' })}</span>
+        <div className="flex flex-wrap items-center gap-3">
+          <SubjectWeightageChart />
+          <div className="flex items-center gap-2 rounded-xl bg-zinc-900 border border-zinc-800 px-4 py-2.5 text-xs text-zinc-300 font-medium w-fit">
+            <Calendar className="h-4 w-4 text-violet-400" />
+            <span>{new Date().toLocaleDateString(undefined, { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' })}</span>
+          </div>
         </div>
       </div>
 
