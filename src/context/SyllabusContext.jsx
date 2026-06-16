@@ -874,6 +874,44 @@ export const SyllabusProvider = ({ children }) => {
 
   const revisionTopics = getRevisionTopics();
 
+  // Save all current syllabus progress to database in bulk
+  const saveAllProgress = async () => {
+    if (!token) return;
+    
+    const topicsList = [];
+    syllabus.forEach(subject => {
+      subject.chapters.forEach(chapter => {
+        chapter.topics.forEach(topic => {
+          topicsList.push({
+            topicId: topic.id,
+            status: topic.status,
+            pyqSolved: topic.pyqSolved,
+            notes: topic.notes || ''
+          });
+        });
+      });
+    });
+
+    try {
+      const response = await fetch(`${API_BASE}/progress/update`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(topicsList)
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to save progress');
+      }
+      return await response.json();
+    } catch (err) {
+      console.error("Failed to save progress in bulk:", err);
+      throw err;
+    }
+  };
+
   return (
     <SyllabusContext.Provider value={{
       syllabus,
@@ -889,7 +927,8 @@ export const SyllabusProvider = ({ children }) => {
       loading,
       login,
       register,
-      logout
+      logout,
+      saveAllProgress
     }}>
       {children}
     </SyllabusContext.Provider>

@@ -20,10 +20,40 @@ router.get('/get', authMiddleware, async (req, res) => {
   }
 });
 
-// Update/Upsert progress for a topic
+// Update/Upsert progress for a topic (supports single topic object or bulk array of topics)
 router.post('/update', authMiddleware, async (req, res) => {
   try {
     const userId = req.user.userId;
+
+    if (Array.isArray(req.body)) {
+      const operations = req.body.map(item => {
+        const { topicId, status, pyqSolved, notes } = item;
+        return prisma.progress.upsert({
+          where: {
+            userId_topicId: {
+              userId,
+              topicId
+            }
+          },
+          update: {
+            status: status !== undefined ? status : undefined,
+            pyqSolved: pyqSolved !== undefined ? pyqSolved : undefined,
+            notes: notes !== undefined ? notes : undefined
+          },
+          create: {
+            userId,
+            topicId,
+            status: status || 'Not Started',
+            pyqSolved: pyqSolved || false,
+            notes: notes || ''
+          }
+        });
+      });
+
+      const results = await prisma.$transaction(operations);
+      return res.status(200).json({ success: true, count: results.length });
+    }
+
     const { topicId, status, pyqSolved, notes } = req.body;
 
     if (!topicId) {

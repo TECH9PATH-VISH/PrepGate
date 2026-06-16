@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Menu, Trophy, CheckCircle, AlertCircle, Sparkles, Settings, UserCircle, LogOut, LogIn, UserPlus, X } from 'lucide-react';
+import { Menu, Trophy, CheckCircle, AlertCircle, Sparkles, Settings, UserCircle, LogOut, LogIn, UserPlus, X, CloudUpload, Check, Loader2 } from 'lucide-react';
 import Sidebar from './components/Sidebar';
 import DashboardView from './components/DashboardView';
 import SyllabusView from './components/SyllabusView';
@@ -15,8 +15,29 @@ function App() {
   const [authModalTab, setAuthModalTab] = useState('login');
   const [profileModalOpen, setProfileModalOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [saveState, setSaveState] = useState('default'); // 'default', 'loading', 'success'
 
-  const { stats, isAuthenticated, user, logout } = useSyllabus();
+  const { stats, isAuthenticated, user, logout, saveAllProgress } = useSyllabus();
+
+  const handleSaveProgress = async () => {
+    if (!isAuthenticated) {
+      setAuthModalTab('login');
+      setAuthModalOpen(true);
+      return;
+    }
+    if (saveState !== 'default') return;
+    setSaveState('loading');
+    try {
+      await saveAllProgress();
+      setSaveState('success');
+      setTimeout(() => {
+        setSaveState('default');
+      }, 2000);
+    } catch (error) {
+      console.error("Failed to save progress:", error);
+      setSaveState('default');
+    }
+  };
 
   const getUserFirstName = () => {
     if (!user || !user.email) return 'Vishal';
@@ -114,6 +135,34 @@ function App() {
                 <Trophy className="h-4 w-4" />
                 <span>{stats.overallProgress}% Weighted Prep</span>
               </div>
+
+              {/* Save Progress Button */}
+              <button
+                onClick={handleSaveProgress}
+                disabled={saveState === 'loading'}
+                className={`whitespace-nowrap flex-shrink-0 flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold rounded-lg cursor-pointer transition-all duration-300 border focus:outline-none ${
+                  saveState === 'success'
+                    ? 'bg-emerald-500/15 border-emerald-500/30 text-emerald-400 shadow-[0_0_12px_rgba(16,185,129,0.2)]'
+                    : saveState === 'loading'
+                    ? 'bg-zinc-900 border-zinc-800 text-zinc-500 cursor-not-allowed'
+                    : 'bg-cyan-500/15 border-cyan-500/30 text-cyan-400 hover:bg-cyan-500/25 hover:border-cyan-500/50 shadow-[0_0_12px_rgba(6,182,212,0.15)] hover:shadow-[0_0_18px_rgba(6,182,212,0.25)]'
+                }`}
+              >
+                {saveState === 'loading' ? (
+                  <Loader2 className="h-3.5 w-3.5 animate-spin text-zinc-500" />
+                ) : saveState === 'success' ? (
+                  <Check className="h-3.5 w-3.5 text-emerald-400" />
+                ) : (
+                  <CloudUpload className="h-3.5 w-3.5 text-cyan-400" />
+                )}
+                <span>
+                  {saveState === 'loading'
+                    ? 'Saving...'
+                    : saveState === 'success'
+                    ? 'Saved!'
+                    : 'Save Progress'}
+                </span>
+              </button>
 
               {/* Settings Dropdown */}
               <div className="relative">
