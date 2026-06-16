@@ -37,17 +37,19 @@ const styleTagContent = `
   }
 `;
 
-const OrbitalSystem = ({ size = 480, interactive = true, hoveredIndex, setHoveredIndex, hoveredCoords, setHoveredCoords }) => {
+const OrbitalSystem = ({ size = 480, interactive = true, hoveredIndex, setHoveredIndex, hoveredCoords, setHoveredCoords, anglesRef }) => {
   const requestRef = useRef(null);
   const previousTimeRef = useRef(null);
   
   // DOM element references
   const orbRefs = useRef([]);
   
-  // Spread out initial starting angles around the circle
-  const anglesRef = useRef(
+  // Fallback angles ref for mini widget where parent anglesRef is not passed
+  const localAnglesRef = useRef(
     weightageData.map((_, i) => (i * 360) / weightageData.length + i * 12)
   );
+  
+  const activeAngles = anglesRef || localAnglesRef;
 
   const scale = size / 500;
   const centerX = size / 2;
@@ -68,7 +70,7 @@ const OrbitalSystem = ({ size = 480, interactive = true, hoveredIndex, setHovere
       if (previousTimeRef.current !== undefined) {
         const deltaTime = (time - previousTimeRef.current) / 1000; // time in seconds
         
-        anglesRef.current.forEach((angle, index) => {
+        activeAngles.current.forEach((angle, index) => {
           // If this orb is currently hovered, pause its orbit
           if (hoveredIndex === index) {
             return;
@@ -76,7 +78,7 @@ const OrbitalSystem = ({ size = 480, interactive = true, hoveredIndex, setHovere
           
           const speed = getSpeed(index);
           const newAngle = (angle + speed * deltaTime) % 360;
-          anglesRef.current[index] = newAngle;
+          activeAngles.current[index] = newAngle;
           
           const rad = (newAngle * Math.PI) / 180;
           const R = getOrbRadius(index);
@@ -103,7 +105,7 @@ const OrbitalSystem = ({ size = 480, interactive = true, hoveredIndex, setHovere
   const handleMouseEnter = (index) => {
     if (!interactive) return;
     
-    const angle = anglesRef.current[index];
+    const angle = activeAngles.current[index];
     const rad = (angle * Math.PI) / 180;
     const R = getOrbRadius(index);
     const x = centerX + R * Math.cos(rad);
@@ -246,6 +248,11 @@ const SubjectWeightageChart = () => {
   const [hoveredIndex, setHoveredIndex] = useState(null);
   const [hoveredCoords, setHoveredCoords] = useState(null);
 
+  // Parent holds the reference to active angles so legend hover can map coordinates perfectly!
+  const anglesRef = useRef(
+    weightageData.map((_, i) => (i * 360) / weightageData.length + i * 12)
+  );
+
   // Sync state update for legend interaction
   const containerRef = useRef(null);
 
@@ -273,7 +280,7 @@ const SubjectWeightageChart = () => {
       return;
     }
     
-    // Trigger coordinate mapping via event bubble or calculation mock
+    // Trigger coordinate mapping via active angles array
     setHoveredIndex(index);
     
     // Compute target orb coordinate for legend laser connection
@@ -282,15 +289,9 @@ const SubjectWeightageChart = () => {
     const centerY = 430 / 2;
     const getOrbRadius = (idx) => (65 + idx * 17.5) * scale;
     
-    // We fetch coordinates from active orbit angles
-    const angles = document.querySelector('.modal-orb-container')?.querySelector('svg') 
-      ? window.__activeAngles || [] 
-      : [];
-      
-    // Simulating mapping coordinates from the orbital loops
     const R = getOrbRadius(index);
-    const mockAngle = (index * 360) / weightageData.length + 45; // static estimate fallback
-    const rad = (mockAngle * Math.PI) / 180;
+    const angle = anglesRef.current[index];
+    const rad = (angle * Math.PI) / 180;
     
     setHoveredCoords({
       x: centerX + R * Math.cos(rad),
@@ -365,6 +366,7 @@ const SubjectWeightageChart = () => {
                 setHoveredIndex={setHoveredIndex}
                 hoveredCoords={hoveredCoords}
                 setHoveredCoords={setHoveredCoords}
+                anglesRef={anglesRef}
               />
 
               {/* HUD glassmorphism overlay tooltip */}
