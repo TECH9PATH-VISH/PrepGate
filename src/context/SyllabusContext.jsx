@@ -582,12 +582,14 @@ export const SyllabusProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(!!token);
   const [authError, setAuthError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(() => !!localStorage.getItem('prepgate_token'));
   const [syllabus, setSyllabus] = useState(initialSyllabusData);
 
   // Helper to log out
   const logout = () => {
     localStorage.removeItem('prepgate_token');
     localStorage.removeItem('prepgate_user');
+    localStorage.removeItem('prepgate_syllabus_progress');
     setToken(null);
     setUser(null);
     setIsAuthenticated(false);
@@ -596,13 +598,33 @@ export const SyllabusProvider = ({ children }) => {
 
   // Fetch progress from backend upon authentication
   useEffect(() => {
-    const fetchProgress = async () => {
+    const hydrateState = async () => {
+      // 1. Try to load from localStorage first (fail-safe fallback)
+      const localData = localStorage.getItem('prepgate_syllabus_progress');
+      if (localData) {
+        try {
+          const parsed = JSON.parse(localData);
+          if (Array.isArray(parsed)) {
+            if (parsed.length > 0 && parsed[0].chapters) {
+              setSyllabus(parsed);
+            } else {
+              setSyllabus(mergeProgress(initialSyllabusData, parsed));
+            }
+          }
+        } catch (e) {
+          console.error("Error parsing prepgate_syllabus_progress from localStorage:", e);
+        }
+      }
+
+      // 2. Fetch from backend if authenticated
       if (!token) {
-        setSyllabus(initialSyllabusData);
+        if (!localData) {
+          setSyllabus(initialSyllabusData);
+        }
         return;
       }
 
-      setLoading(true);
+      setIsLoading(true);
       try {
         const response = await fetch(`${API_BASE}/progress/get`, {
           headers: {
@@ -612,18 +634,21 @@ export const SyllabusProvider = ({ children }) => {
 
         if (response.ok) {
           const progressList = await response.json();
-          setSyllabus(mergeProgress(initialSyllabusData, progressList));
+          const merged = mergeProgress(initialSyllabusData, progressList);
+          setSyllabus(merged);
+          // Sync backend data to local storage
+          localStorage.setItem('prepgate_syllabus_progress', JSON.stringify(merged));
         } else if (response.status === 401) {
           logout();
         }
       } catch (err) {
         console.error("Failed to fetch progress from backend:", err);
       } finally {
-        setLoading(false);
+        setIsLoading(false);
       }
     };
 
-    fetchProgress();
+    hydrateState();
   }, [token]);
 
   // Auth: Login
@@ -876,6 +901,9 @@ export const SyllabusProvider = ({ children }) => {
 
   // Save all current syllabus progress to database in bulk
   const saveAllProgress = async () => {
+    // Save to local storage first as a fail-safe fallback
+    localStorage.setItem('prepgate_syllabus_progress', JSON.stringify(syllabus));
+
     if (!token) return;
     
     const topicsList = [];
@@ -925,6 +953,7 @@ export const SyllabusProvider = ({ children }) => {
       isAuthenticated,
       authError,
       loading,
+      isLoading,
       login,
       register,
       logout,

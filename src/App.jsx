@@ -7,6 +7,97 @@ import RevisionView from './components/RevisionView';
 import AuthView from './components/AuthView';
 import { useSyllabus } from './context/SyllabusContext';
 
+// Sleek dark-mode skeleton loader matching the dashboard layout
+const DashboardSkeleton = () => {
+  return (
+    <div className="space-y-6 animate-pulse">
+      {/* Header Skeleton */}
+      <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+        <div className="space-y-2">
+          <div className="h-8 w-48 bg-zinc-900 rounded-lg" />
+          <div className="h-4 w-72 bg-zinc-900/50 rounded-md" />
+        </div>
+        <div className="flex items-center gap-3">
+          <div className="h-10 w-28 bg-zinc-900 rounded-xl" />
+          <div className="h-10 w-40 bg-zinc-900 rounded-xl" />
+        </div>
+      </div>
+
+      {/* Hero Stats Card Skeleton */}
+      <div className="relative overflow-hidden rounded-2xl border border-zinc-900 bg-zinc-950 p-6 md:p-8 shadow-xl">
+        <div className="grid gap-6 md:grid-cols-3 md:items-center">
+          {/* Circular Progress Skeleton */}
+          <div className="flex flex-col items-center justify-center border-b border-zinc-900 pb-6 md:border-b-0 md:border-r md:pb-0 md:pr-6">
+            <div className="relative flex h-36 w-36 items-center justify-center">
+              <div className="absolute h-full w-full rounded-full border-8 border-zinc-900" />
+              <div className="flex flex-col items-center gap-1">
+                <div className="h-6 w-12 bg-zinc-900 rounded" />
+                <div className="h-3 w-16 bg-zinc-900/60 rounded" />
+              </div>
+            </div>
+          </div>
+
+          {/* Progress Metrics Skeleton */}
+          <div className="space-y-4 md:col-span-2 md:pl-6">
+            <div className="h-4 w-2/3 bg-zinc-900 rounded" />
+            <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
+              {[...Array(4)].map((_, i) => (
+                <div key={i} className="rounded-xl border border-zinc-900 bg-zinc-900/20 p-3 h-16 flex flex-col justify-between">
+                  <div className="h-3 w-12 bg-zinc-900 rounded" />
+                  <div className="h-5 w-8 bg-zinc-900 rounded mt-2" />
+                </div>
+              ))}
+            </div>
+            <div>
+              <div className="flex justify-between text-xs text-zinc-500 mb-1.5 font-medium">
+                <div className="h-3 w-40 bg-zinc-900 rounded" />
+                <div className="h-3 w-8 bg-zinc-900 rounded" />
+              </div>
+              <div className="h-2.5 w-full rounded-full bg-zinc-900 overflow-hidden" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Lists Split Skeleton */}
+      <div className="grid gap-6 md:grid-cols-2">
+        {/* Subject-wise Progress Skeleton */}
+        <div className="space-y-4">
+          <div className="h-6 w-36 bg-zinc-900 rounded" />
+          <div className="space-y-3">
+            {[...Array(3)].map((_, i) => (
+              <div key={i} className="rounded-xl border border-zinc-900 bg-zinc-950 p-4 space-y-3">
+                <div className="flex justify-between items-center">
+                  <div className="space-y-2 w-2/3">
+                    <div className="h-4 bg-zinc-900 rounded w-4/5" />
+                    <div className="h-3 bg-zinc-900/60 rounded w-1/3" />
+                  </div>
+                  <div className="h-6 w-10 bg-zinc-900 rounded-lg" />
+                </div>
+                <div className="h-2 w-full bg-zinc-900 rounded-full" />
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Revision alerts skeleton */}
+        <div className="space-y-4">
+          <div className="h-6 w-36 bg-zinc-900 rounded" />
+          <div className="rounded-xl border border-zinc-900 bg-zinc-950 p-4 h-[330px] space-y-3">
+            {[...Array(3)].map((_, i) => (
+              <div key={i} className="rounded-lg border border-zinc-900 bg-zinc-900/20 p-3 space-y-2">
+                <div className="h-3 w-16 bg-zinc-900 rounded" />
+                <div className="h-4 w-3/4 bg-zinc-900 rounded mt-2" />
+                <div className="h-3 w-1/2 bg-zinc-900/60 rounded" />
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 function App() {
   const [currentView, setCurrentView] = useState('dashboard');
   const [selectedSubjectId, setSelectedSubjectId] = useState(null);
@@ -17,7 +108,7 @@ function App() {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [saveState, setSaveState] = useState('default'); // 'default', 'loading', 'success'
 
-  const { stats, isAuthenticated, user, logout, saveAllProgress } = useSyllabus();
+  const { stats, isAuthenticated, user, logout, saveAllProgress, isLoading } = useSyllabus();
 
   const handleSaveProgress = async () => {
     if (!isAuthenticated) {
@@ -47,6 +138,9 @@ function App() {
   };
 
   const renderCurrentView = () => {
+    if (isLoading) {
+      return <DashboardSkeleton />;
+    }
     switch (currentView) {
       case 'dashboard':
         return (
